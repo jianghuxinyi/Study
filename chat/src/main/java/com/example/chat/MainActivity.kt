@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,13 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //Greeting("Android")
-                    MessageCard(
-                        msg = Message(
-                            author = "Leo Lee",
-                            body = "hello, nice to meet you"
-                        )
-                    )
+                    Conversation(SampleData.conversationSample)
                 }
             }
         }
@@ -51,6 +48,16 @@ class MainActivity : ComponentActivity() {
 
 // 定义一个对象 数据类型
 data class Message(val author: String, val body: String)
+
+@Composable
+fun Conversation(messages: List<Message>){
+    LazyColumn(){
+        items(messages){
+            item: Message ->  MessageCard(msg = item)
+        }
+
+    }
+}
 
 @Composable
 fun MessageCard(msg: Message) {
@@ -64,37 +71,35 @@ fun MessageCard(msg: Message) {
                 .background(color = MaterialTheme.colorScheme.secondary)
         )
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(8.dp))
 
         Column() {
-            Text(text = msg.author)
+            Text(
+                text = msg.author,
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.headlineMedium
+                )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = msg.body)
+            Surface(shape = RoundedCornerShape(4.dp)) {
+                Text(
+                    text = msg.body,
+                    modifier = Modifier.padding(4.dp),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
     }
 
+}
 
+@Preview
+@Composable
+fun PreviewConversation(){
+    Conversation(SampleData.conversationSample)
 }
 
 @Preview
 @Composable
 fun PreviewMessageCard() {
     MessageCard(msg = Message("Leo Lee", "Hello! this is a jetpack compos app"))
-}
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    StudyTheme {
-        Greeting("Android")
-    }
 }
