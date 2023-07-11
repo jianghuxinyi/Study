@@ -64,7 +64,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'com.google.accompanist:accompanist-swiperefresh:0.31.5-beta'//适配不同屏幕
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.31.5-beta'
+    implementation 'androidx.glance:glance:1.0.0-beta01'
+    implementation 'androidx.glance:glance-material3:1.0.0-beta01'
+    implementation 'androidx.glance:glance-appwidget:1.0.0-beta01'
+    implementation 'com.google.android.material:material:1.9.0'
 
 
     testImplementation 'junit:junit:4.13.2'

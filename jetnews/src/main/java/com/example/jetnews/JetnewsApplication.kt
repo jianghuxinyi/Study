@@ -1,4 +1,4 @@
-package com.example.jetnews.ui
+package com.example.jetnews
 
 import android.app.Application
 import com.example.jetnews.data.AppContainer

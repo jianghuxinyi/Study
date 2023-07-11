@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-     Copyright 2021 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2023 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,14 +15,6 @@
      limitations under the License.
 -->
 <resources>
-
-    <!-- Allows us to override platform level specific attributes in their
-         respective values-vXX folder. -->
-    <style name="Platform.Theme.Jetnews" parent="Theme.Material3.DayNight">
-        <item name="android:statusBarColor">@color/black30</item>
-    </style>
-
-    <!-- The actual theme we use. This varies for light theme (here),
-         and values-night for dark theme. -->
-    <style name="Theme.Jetnews" parent="Platform.Theme.Jetnews" />
+    <!-- Refresh widget every 1 hour -->
+    <integer name="widget_update_period_millis">3600000</integer>
 </resources>

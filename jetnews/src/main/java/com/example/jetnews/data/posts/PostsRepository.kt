@@ -8,7 +8,7 @@ import com.example.jetnews.data.Result
 
 interface PostsRepository {
 
-    suspend fun getPost(postId: String): Result<Post>
+    suspend fun getPost(postId: String?): Result<Post>
 
     suspend fun getPostsFeed(): Result<PostsFeed>
 
