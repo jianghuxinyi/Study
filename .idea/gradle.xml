@@ -14,6 +14,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/chat" />
             <option value="$PROJECT_DIR$/jetnews" />
+            <option value="$PROJECT_DIR$/passwordmanager" />
+            <option value="$PROJECT_DIR$/usbsocket" />
           </set>
         </option>
       </GradleProjectSettings>

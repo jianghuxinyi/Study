@@ -16,3 +16,5 @@ rootProject.name = "Study"
 include ':app'
 include ':chat'
 include ':jetnews'
+include ':usbsocket'
+include ':passwordmanager'
