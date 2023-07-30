@@ -107,7 +107,8 @@ fun MessageCard(account: Account) {
             Surface(
                 shape = RoundedCornerShape(4.dp),
                 shadowElevation = 1.dp,
-                color = surfaceColor
+                color = surfaceColor,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = account.password,
@@ -210,7 +211,7 @@ fun AddAccountDialog(dialogState: MutableState<Boolean>, acc: MutableList<Accoun
                         }
                         Button(onClick = {
                             Toast.makeText(app,account.account+""+account.password+""+account.email+""+account.phone,Toast.LENGTH_SHORT).show()
-                            acc.add(Account("1","2","3","4"))
+                            acc.add(Account("1","2\n2\n3\n5\n3","3","4"))
 
                         }) {
                             Text(text = "确认")
