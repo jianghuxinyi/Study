@@ -1,7 +1,9 @@
 package com.linanqing.passwordmanager.ui.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.linanqing.passwordmanager.ui.home.HomeScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
