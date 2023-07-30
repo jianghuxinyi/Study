@@ -91,13 +91,13 @@ fun HomeScreen(
             }
         },
     ) { innerPadding ->
+
         HomeBody(
             accountList = homeUiState.accountList,
             onItemClick = navigateToItemUpdate,
             modifier = modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(Color(0xFFF0F2F4))
         )
     }
 }
@@ -108,7 +108,7 @@ private fun HomeBody(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(10.dp)
+        modifier = modifier
     ) {
         if (accountList.isEmpty()) {
             Text(
@@ -131,7 +131,7 @@ private fun HomeBody(
 private fun AccountListUi(
     accountList: List<Account>, onItemClick: (Account) -> Unit, modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = Modifier.background(Color(0xFFFEFEFE), RoundedCornerShape(8.dp)).padding(dimensionResource(id = R.dimen.padding_small))) {
+    LazyColumn(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))) {
         items(items = accountList, key = {it.id}) { item: Account ->
             AccountItem(account = item,
                 modifier = Modifier

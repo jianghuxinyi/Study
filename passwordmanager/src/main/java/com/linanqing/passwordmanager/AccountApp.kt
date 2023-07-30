@@ -39,7 +39,6 @@ fun AccountTopAppBar(
     navigateUp: () -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color(0xFFF0F2F4)),
         title = { Text(title) },
         modifier = modifier,
         scrollBehavior = scrollBehavior,
