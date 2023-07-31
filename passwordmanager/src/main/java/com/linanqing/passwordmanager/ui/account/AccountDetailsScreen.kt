@@ -17,13 +17,17 @@
 package com.linanqing.passwordmanager.ui.account
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -31,14 +35,17 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -46,11 +53,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.linanqing.passwordmanager.AccountTopAppBar
 import com.linanqing.passwordmanager.R
@@ -128,12 +139,13 @@ private fun AccountDetailsBody(
     ) {
         var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
         AccountDetailsUi(
-            account = accountDetailsUiState.accountDetails.toAccount(), modifier = Modifier.fillMaxWidth()
+            account = accountDetailsUiState.accountDetails.toAccount(),
+            modifier = Modifier.fillMaxWidth()
         )
         OutlinedButton(
             onClick = { deleteConfirmationRequired = true },
             shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(top = dimensionResource(id = R.dimen.padding_medium))
         ) {
             Text(stringResource(R.string.delete))
         }
@@ -155,80 +167,108 @@ private fun AccountDetailsBody(
 fun AccountDetailsUi(
     account: Account, modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier, colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+    Box(contentAlignment = Alignment.TopCenter) {
+        Card(
+            modifier = modifier.padding(top = 48.dp), colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = dimensionResource(id = R.dimen.padding_medium))
         ) {
-            ItemDetailsRow(
-                labelResID = R.string.application,
-                itemDetail = account.name,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.account,
-                itemDetail = account.account,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.password,
-                itemDetail = account.password,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.email,
-                itemDetail = account.email,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.phone,
-                itemDetail = account.phone,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.remark,
-                itemDetail = account.remark,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen
-                            .padding_medium
-                    )
-                )
-            )
 
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.padding_medium))
+                    .padding(top = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+            ) {
+                ItemDetailsRow(
+                    labelResID = R.string.application,
+                    itemDetail = account.name,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+                ItemDetailsRow(
+                    labelResID = R.string.account,
+                    itemDetail = account.account,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+                ItemDetailsRow(
+                    labelResID = R.string.password,
+                    itemDetail = account.password,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+                ItemDetailsRow(
+                    labelResID = R.string.email,
+                    itemDetail = account.email,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+                ItemDetailsRow(
+                    labelResID = R.string.phone,
+                    itemDetail = account.phone,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+                ItemDetailsRow(
+                    labelResID = R.string.group,
+                    itemDetail = account.group,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+                ItemDetailsRow(
+                    labelResID = R.string.remark,
+                    itemDetail = account.remark,
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(
+                            id = R.dimen
+                                .padding_medium
+                        )
+                    )
+                )
+
+            }
         }
+
+        Surface(shadowElevation = dimensionResource(id = R.dimen.padding_medium), shape = CircleShape) {
+            Image(
+                painter = painterResource(id = R.drawable.test), contentDescription = "",
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(96.dp)
+                    .padding(),
+
+
+                )
+        }
+
 
     }
 }

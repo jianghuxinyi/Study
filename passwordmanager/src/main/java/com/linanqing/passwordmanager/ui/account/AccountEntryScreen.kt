@@ -16,12 +16,14 @@
 
 package com.linanqing.passwordmanager.ui.account
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,14 +31,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.linanqing.passwordmanager.AccountTopAppBar
 import com.linanqing.passwordmanager.R
@@ -44,8 +51,6 @@ import com.linanqing.passwordmanager.ui.AppViewModelProvider
 import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
 import com.linanqing.passwordmanager.ui.theme.StudyTheme
 import kotlinx.coroutines.launch
-import java.util.Currency
-import java.util.Locale
 
 object AccountEntryDestination : NavigationDestination {
     override val route = "account_entry"
@@ -130,6 +135,17 @@ fun AccountInputForm(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
+//        Image(painter = painterResource(id = R.drawable.test), contentDescription = "",
+//        modifier = Modifier.clip(CircleShape).size(96.dp).align(Alignment.CenterHorizontally))
+        Surface(shadowElevation = dimensionResource(id = R.dimen.padding_medium), shape = CircleShape, modifier = Modifier.align(Alignment.CenterHorizontally),) {
+            Image(
+                painter = painterResource(id = R.drawable.test), contentDescription = "",
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(96.dp)
+                    .padding()
+                )
+        }
         OutlinedTextField(
             value = accountDetails.name,
             onValueChange = { onValueChange(accountDetails.copy(name = it)) },
@@ -201,6 +217,20 @@ fun AccountInputForm(
         )
 
         OutlinedTextField(
+            value = accountDetails.group,
+            onValueChange = { onValueChange(accountDetails.copy(group = it)) },
+            label = { Text(stringResource(R.string.account_group_req)) },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+
+        OutlinedTextField(
             value = accountDetails.remark,
             onValueChange = { onValueChange(accountDetails.copy(remark = it)) },
             label = { Text(stringResource(R.string.account_remark_req)) },
@@ -230,10 +260,12 @@ private fun ItemEntryScreenPreview() {
         AccountEntryBody(accountUiState = AccountUiState(
             AccountDetails(
                 name = "Item name",
+                icon = "",
                 account = "10.00",
                 password = "5",
                 email = "example@example.com",
                 phone = "phone",
+                group = "",
                 remark = "remark"
             )
         ), onItemValueChange = {}, onSaveClick = {})

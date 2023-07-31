@@ -12,6 +12,7 @@
     <string name="password">密码</string>
     <string name="email">邮箱</string>
     <string name="phone">电话</string>
+    <string name="group">分组</string>
     <string name="remark">备注</string>
     <string name="attention">注意</string>
 
@@ -20,6 +21,7 @@
     <string name="account_password_req">密码*</string>
     <string name="account_email_req">邮箱</string>
     <string name="account_phone_req">电话</string>
+    <string name="account_group_req">分组</string>
     <string name="account_remark_req">备注</string>
     <string name="required_fields">*为必填项</string>
 

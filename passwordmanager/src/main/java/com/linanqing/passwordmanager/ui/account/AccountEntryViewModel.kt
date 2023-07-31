@@ -69,14 +69,16 @@ data class AccountUiState(
 
 data class AccountDetails(
     val id: Int = 0,
+    val icon: String = "",
     val name: String = "",
     val account: String = "",
     val password: String = "",
     val email: String = "",
     val phone: String = "",
+    val group: String = "",
     val remark: String = "",
 
-)
+    )
 
 /**
  * Extension function to convert [ItemUiState] to [Item]. If the value of [ItemDetails.price] is
@@ -85,11 +87,13 @@ data class AccountDetails(
  */
 fun AccountDetails.toAccount(): Account = Account(
     id = id,
+    icon = icon,
     name = name,
     account = account,
     password = password,
     email = email,
     phone = phone,
+    group = group,
     remark = remark,
 )
 
@@ -106,10 +110,12 @@ fun Account.toItemUiState(isEntryValid: Boolean = false): AccountUiState = Accou
  */
 fun Account.toAccountDetails(): AccountDetails = AccountDetails(
     id = id,
+    icon = icon,
     name = name,
     account = account,
     password = password,
     email = email,
     phone = phone,
+    group = group,
     remark = remark,
 )

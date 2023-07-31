@@ -24,7 +24,7 @@ import androidx.room.RoomDatabase
 /**
  * Database class with a singleton Instance object.
  */
-@Database(entities = [Account::class], version = 1, exportSchema = false)
+@Database(entities = [Account::class], version = 2, exportSchema = false)
 abstract class AccountDatabase : RoomDatabase() {
 
     abstract fun accountDao(): AccountDao
