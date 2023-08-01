@@ -19,6 +19,22 @@ import javax.crypto.Cipher;
 
 public class RSAUtils {
     private static String test = "test";
+    private static String publicKeyM = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVxAu1mzwk2rLZTAVOToOrawlhBl5VDCVB5gVt\n" +
+            "xOdq6SAErePopaxI38KQ1Cvx8TzT6epq/ZA6ePU8MaQUERQd7TqdJ6y/M7Ag3O0FZdhwdugBHz/G\n" +
+            "O49QyyrUIbEbJ3FfC4Hehs//TYtJSzd4r/e6JtRdEWMC7LSEDpmAAx3GbwIDAQAB\n";
+
+    private static String privateKeyM="MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBANXEC7WbPCTastlMBU5Og6trCWEG\n" +
+            "XlUMJUHmBW3E52rpIASt4+ilrEjfwpDUK/HxPNPp6mr9kDp49TwxpBQRFB3tOp0nrL8zsCDc7QVl\n" +
+            "2HB26AEfP8Y7j1DLKtQhsRsncV8Lgd6Gz/9Ni0lLN3iv97om1F0RYwLstIQOmYADHcZvAgMBAAEC\n" +
+            "gYAn2VD5fMO8dwxqF5LRoy9GcECiVqaVIht76l5OtSsSsfynAqd+wguY1iWWDAdZJchaFLv/T99o\n" +
+            "Fw5YN0TH/NsL1eX3gbaP7WXgwT5ez9BKdFP2LzJZ+pgIJMEUbfD97bcTQog+CyHN8LYwzmsKfiWi\n" +
+            "O7wlnlOYfqiqWPAg1xz70QJBAO7JFjAsYBRIwlCGUrOlHQzFl00HImWqsmnQEV4Arnlzc+v1FysR\n" +
+            "Rc/fQCVxMpxQwXn3dQ3pzE8gdDrvND4Q5+cCQQDlLTUVbENLyg+3JUGZ7uIUhuZkTdz1WGsRQxlz\n" +
+            "zVgmhYPThE0U4WGzu0z21v9J8USLHkwvyZ6AjZuUf6iNADw5AkEAg6XR2dVdU1GZ8BNeXTTXA0ec\n" +
+            "1xbr2+l0W+oe6RivGL6SVrDViSUIvEZ1cy8pnAzZ3oiTvIv93FIkQqnGv8FKWQJAV7Z8ua1M+GXm\n" +
+            "q+cDe6H1P3v+E+fFKNXlbJ7sz+iI032IXd0mD1bPqRWHuHXDEY7Y+BHpgOS+2F7aa/SMEyNC6QJA\n" +
+            "B3WvyU+CAGAT7NqBQJ0Q3DtAv5jiRaFu7n7SFCSMW9+4Zwlzn79q6d+r5QJCiXBCkXzJF6GeYIrv\n" +
+            "oVRJhj/61A==\n";
     public static void rsaTest() {
         int keyLength = 1024;
         //生成密钥对
@@ -43,13 +59,10 @@ public class RSAUtils {
         try {
             //str.getBytes(StandardCharsets.UTF_8);
             //new String(bytes, StandardCharsets.UTF_8)
-            byte[] enbyte = encryptByPublicKey(test.getBytes(StandardCharsets.UTF_8),Base64.decode(encodePublic,Base64.DEFAULT));
-            String enStr = Base64.encodeToString(enbyte,Base64.DEFAULT);
-            Log.d("TAG", "公钥加密数据：" + enStr);
+            String enStr = encryptByPublicKey(test);
+            Log.d("TAG", "加密：" + enStr);
+            Log.d("TAG", "解密：" + decryptByPrivateKey(enStr));
 
-            byte[] deStr = Base64.decode(enStr,Base64.DEFAULT);
-            byte[] deByte = decryptByPrivateKey(deStr,Base64.decode(encodePrivate,Base64.DEFAULT));
-            Log.d("TAG", "私钥解密数据：" + new String(deByte, StandardCharsets.UTF_8));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -75,6 +88,16 @@ public class RSAUtils {
         return cp.doFinal(data);
     }
 
+    public static String encryptByPublicKey(String str){
+        try {
+            byte[] enByte = encryptByPublicKey(str.getBytes(StandardCharsets.UTF_8),Base64.decode(publicKeyM,Base64.DEFAULT));
+            String enStr = Base64.encodeToString(enByte,Base64.DEFAULT);
+            return enStr;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     /** 使用私钥解密 */
     public static byte[] decryptByPrivateKey(byte[] encrypted, byte[] privateKey) throws Exception {
         // 得到私钥对象
@@ -87,6 +110,17 @@ public class RSAUtils {
         byte[] arr = cp.doFinal(encrypted);
         return arr;
     }
+
+    public static String decryptByPrivateKey(String str){
+        try {
+            byte[] deStr = Base64.decode(str,Base64.DEFAULT);
+            byte[] deByte = decryptByPrivateKey(deStr,Base64.decode(privateKeyM,Base64.DEFAULT));
+            return new String(deByte, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
 
     /** 生成密钥对，即公钥和私钥。key长度是512-2048，一般为1024 */
     public static KeyPair generateRSAKeyPair(int keyLength) throws NoSuchAlgorithmException {
