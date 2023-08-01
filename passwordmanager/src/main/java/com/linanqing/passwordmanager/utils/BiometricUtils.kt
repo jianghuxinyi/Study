@@ -48,3 +48,9 @@ fun biometricUtils(ctx:Context,callback: BiometricCallback): BiometricPrompt {
 
     return biometricPrompt
 }
+
+interface BiometricCallback {
+    fun success()
+    fun error()
+    fun failed()
+}

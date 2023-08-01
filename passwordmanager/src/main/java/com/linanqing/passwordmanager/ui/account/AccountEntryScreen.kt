@@ -16,6 +16,7 @@
 
 package com.linanqing.passwordmanager.ui.account
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,6 +52,9 @@ import com.linanqing.passwordmanager.R
 import com.linanqing.passwordmanager.ui.AppViewModelProvider
 import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
 import com.linanqing.passwordmanager.ui.theme.StudyTheme
+import com.linanqing.passwordmanager.utils.BiometricCallback
+import com.linanqing.passwordmanager.utils.biometricUtils
+import com.linanqing.passwordmanager.utils.promptInfo
 import kotlinx.coroutines.launch
 
 object AccountEntryDestination : NavigationDestination {
@@ -66,6 +71,7 @@ fun AccountEntryScreen(
     viewModel: AccountEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val ctx = LocalContext.current
     Scaffold(
         topBar = {
             AccountTopAppBar(
@@ -83,10 +89,25 @@ fun AccountEntryScreen(
                 // and the item may not be saved in the Database. This is because when config
                 // change occurs, the Activity will be recreated and the rememberCoroutineScope will
                 // be cancelled - since the scope is bound to composition.
-                coroutineScope.launch {
-                    viewModel.saveItem()
-                    navigateBack()
-                }
+                biometricUtils(ctx,object : BiometricCallback {
+                    override fun success() {
+                        coroutineScope.launch {
+                            viewModel.saveItem()
+                            navigateBack()
+                        }
+
+                    }
+
+                    override fun error() {
+
+                    }
+
+                    override fun failed() {
+
+                    }
+
+                }).authenticate(promptInfo)
+
             },
             modifier = Modifier
                 .padding(innerPadding)

@@ -56,6 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -68,6 +69,9 @@ import com.linanqing.passwordmanager.R
 import com.linanqing.passwordmanager.data.Account
 import com.linanqing.passwordmanager.ui.AppViewModelProvider
 import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
+import com.linanqing.passwordmanager.utils.BiometricCallback
+import com.linanqing.passwordmanager.utils.biometricUtils
+import com.linanqing.passwordmanager.utils.promptInfo
 import kotlinx.coroutines.launch
 
 object AccountDetailsDestination : NavigationDestination {
@@ -142,8 +146,23 @@ private fun AccountDetailsBody(
             account = accountDetailsUiState.accountDetails.toAccount(),
             modifier = Modifier.fillMaxWidth()
         )
+        val ctx = LocalContext.current
         OutlinedButton(
-            onClick = { deleteConfirmationRequired = true },
+            onClick = {
+                biometricUtils(ctx,object : BiometricCallback {
+                override fun success() {
+                    deleteConfirmationRequired = true
+                }
+
+                override fun error() {
+
+                }
+
+                override fun failed() {
+
+                }
+
+            }).authenticate(promptInfo) },
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth().padding(top = dimensionResource(id = R.dimen.padding_medium))
         ) {
