@@ -70,6 +70,7 @@ import com.linanqing.passwordmanager.data.Account
 import com.linanqing.passwordmanager.ui.AppViewModelProvider
 import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
 import com.linanqing.passwordmanager.utils.BiometricCallback
+import com.linanqing.passwordmanager.utils.RSAUtils
 import com.linanqing.passwordmanager.utils.biometricUtils
 import com.linanqing.passwordmanager.utils.promptInfo
 import kotlinx.coroutines.launch
@@ -224,7 +225,7 @@ fun AccountDetailsUi(
                 )
                 ItemDetailsRow(
                     labelResID = R.string.password,
-                    itemDetail = account.password,
+                    itemDetail = RSAUtils.decryptByPrivateKey(account.password),
                     modifier = Modifier.padding(
                         horizontal = dimensionResource(
                             id = R.dimen

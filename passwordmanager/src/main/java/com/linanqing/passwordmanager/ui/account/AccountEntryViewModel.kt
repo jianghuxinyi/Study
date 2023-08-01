@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.linanqing.passwordmanager.data.Account
 import com.linanqing.passwordmanager.data.AccountsRepository
+import com.linanqing.passwordmanager.utils.RSAUtils
 
 /**
  * ViewModel to validate and insert items in the Room database.
@@ -90,7 +91,7 @@ fun AccountDetails.toAccount(): Account = Account(
     icon = icon,
     name = name,
     account = account,
-    password = password,
+    password = RSAUtils.encryptByPublicKey(password),
     email = email,
     phone = phone,
     group = group,
@@ -113,7 +114,7 @@ fun Account.toAccountDetails(): AccountDetails = AccountDetails(
     icon = icon,
     name = name,
     account = account,
-    password = password,
+    password = RSAUtils.decryptByPrivateKey(password),
     email = email,
     phone = phone,
     group = group,
