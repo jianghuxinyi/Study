@@ -2,7 +2,6 @@ package com.linanqing.passwordmanager.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,8 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -36,18 +33,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.linanqing.passwordmanager.AccountTopAppBar
 import com.linanqing.passwordmanager.R
 import com.linanqing.passwordmanager.data.Account
 import com.linanqing.passwordmanager.ui.AppViewModelProvider
+import com.linanqing.passwordmanager.utils.biometricUtils
 import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
+import com.linanqing.passwordmanager.utils.BiometricCallback
+import com.linanqing.passwordmanager.utils.promptInfo
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
@@ -106,6 +106,7 @@ fun HomeScreen(
 private fun HomeBody(
     accountList: List<Account>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
 ) {
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -118,9 +119,25 @@ private fun HomeBody(
                 modifier = Modifier.padding(top = 200.dp)
             )
         } else {
+            val ctx = LocalContext.current
             AccountListUi(
                 accountList = accountList,
-                onItemClick = { onItemClick(it.id) },
+                onItemClick = {
+                    biometricUtils(ctx,object : BiometricCallback {
+                        override fun success() {
+                            onItemClick(it.id)
+                        }
+
+                        override fun error() {
+
+                        }
+
+                        override fun failed() {
+
+                        }
+
+                    }).authenticate(promptInfo)
+                     },
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
             )
         }
