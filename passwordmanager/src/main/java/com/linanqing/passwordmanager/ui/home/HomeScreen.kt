@@ -2,8 +2,10 @@ package com.linanqing.passwordmanager.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +25,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ShapeDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -32,14 +36,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.linanqing.passwordmanager.AccountApplication.Companion.colorArray
 import com.linanqing.passwordmanager.AccountTopAppBar
 import com.linanqing.passwordmanager.R
 import com.linanqing.passwordmanager.data.Account
@@ -162,16 +169,23 @@ private fun AccountListUi(
 private fun AccountItem(
     account: Account, modifier: Modifier = Modifier
 ) {
-
         Row(
             modifier =modifier
         ) {
             // 应用图标
-            Image(painter = painterResource(id = R.drawable.test), contentDescription = "应用",
-            modifier=Modifier.size(40.dp).clip(RoundedCornerShape(8.dp)))
+            AppIcon(str = account.name,
+                0.dp,
+                modifier = Modifier
+                .size(40.dp)
+                .clip(RoundedCornerShape(8.dp)), shape = RoundedCornerShape(0.dp)
+            )
             Column {
-                Row(modifier = Modifier.fillMaxWidth().height(40.dp),horizontalArrangement = Arrangement.SpaceBetween) {
-                    Column(modifier=Modifier.height(40.dp).padding(start = 20.dp), verticalArrangement = Arrangement.SpaceBetween) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),horizontalArrangement = Arrangement.SpaceBetween) {
+                    Column(modifier= Modifier
+                        .height(40.dp)
+                        .padding(start = 20.dp), verticalArrangement = Arrangement.SpaceBetween) {
                         Text(
                             text = account.name,
                             style = MaterialTheme.typography.titleMedium,
@@ -184,7 +198,9 @@ private fun AccountItem(
                     }
                     // 右侧进入按钮
                     Image(painter = painterResource(id = R.drawable.baseline_chevron_right_24), contentDescription = "应用",
-                        modifier=Modifier.size(24.dp).align(Alignment.CenterVertically))
+                        modifier= Modifier
+                            .size(24.dp)
+                            .align(Alignment.CenterVertically))
                 }
                 // 底部分割线
                 Divider(thickness = 0.5.dp, color = Color.Gray, modifier = Modifier.padding(start = 20.dp,top=20.dp))
@@ -192,30 +208,27 @@ private fun AccountItem(
 
         }
 
-//    Card(
-//        modifier = modifier, elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-//    ) {
-//        Column(
-//            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
-//            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
-//        ) {
-//            Row(
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Text(
-//                    text = account.name,
-//                    style = MaterialTheme.typography.titleLarge,
-//                )
-//                Spacer(Modifier.weight(1f))
-//                Text(
-//                    text = account.account,
-//                    style = MaterialTheme.typography.titleMedium
-//                )
-//            }
-//            Text(
-//                text = account.remark,
-//                style = MaterialTheme.typography.titleMedium
-//            )
-//        }
-//    }
+}
+@Composable
+fun AppIcon(str:String, shadowElevation: Dp, modifier: Modifier, shape: Shape){
+    val index = str.hashCode() % 20
+    Surface(
+        shadowElevation = shadowElevation,
+        modifier = modifier,
+        color = Color(colorArray[index]),
+        shape = shape
+
+    ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            if (str.isNotEmpty()){
+                Text(
+                    text = str[0].toString(),
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineLarge,
+                )
+            }
+        }
+
+
+    }
 }

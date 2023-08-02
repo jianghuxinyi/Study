@@ -68,6 +68,7 @@ import com.linanqing.passwordmanager.AccountTopAppBar
 import com.linanqing.passwordmanager.R
 import com.linanqing.passwordmanager.data.Account
 import com.linanqing.passwordmanager.ui.AppViewModelProvider
+import com.linanqing.passwordmanager.ui.home.AppIcon
 import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
 import com.linanqing.passwordmanager.utils.BiometricCallback
 import com.linanqing.passwordmanager.utils.RSAUtils
@@ -165,7 +166,9 @@ private fun AccountDetailsBody(
 
             }).authenticate(promptInfo) },
             shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth().padding(top = dimensionResource(id = R.dimen.padding_medium))
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = dimensionResource(id = R.dimen.padding_medium))
         ) {
             Text(stringResource(R.string.delete))
         }
@@ -277,17 +280,11 @@ fun AccountDetailsUi(
             }
         }
 
-        Surface(shadowElevation = dimensionResource(id = R.dimen.padding_medium), shape = CircleShape) {
-            Image(
-                painter = painterResource(id = R.drawable.test), contentDescription = "",
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(96.dp)
-                    .padding(),
-
-
-                )
-        }
+        AppIcon(str = account.name,
+            shadowElevation = dimensionResource(
+                id = R.dimen.padding_medium),
+            modifier = Modifier.size(96.dp),
+            shape = CircleShape )
 
 
     }

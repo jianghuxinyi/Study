@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="c01">#EF5350</color>
+    <color name="c02">#EC407A</color>
+    <color name="c03">#AB47BC</color>
+    <color name="c04">#7E57C2</color>
+    <color name="c05">#5C6BC0</color>
+    <color name="c06">#42A5F5</color>
+    <color name="c07">#29B6F6</color>
+    <color name="c08">#26C6DA</color>
+    <color name="c09">#26A69A</color>
+    <color name="c10">#66BB6A</color>
+    <color name="c11">#8BC34A</color>
+    <color name="c12">#9CCC65</color>
+    <color name="c13">#D4E157</color>
+    <color name="c14">#FFEE58</color>
+    <color name="c15">#FFC107</color>
+    <color name="c16">#FFA726</color>
+    <color name="c17">#FF7043</color>
+    <color name="c18">#8D6E63</color>
+    <color name="c19">#BDBDBD</color>
+    <color name="c20">#78909C</color>
+    <array name="icon_back">
+        <item>@color/c01</item>
+        <item>@color/c02</item>
+        <item>@color/c03</item>
+        <item>@color/c04</item>
+        <item>@color/c05</item>
+        <item>@color/c06</item>
+        <item>@color/c07</item>
+        <item>@color/c08</item>
+        <item>@color/c09</item>
+        <item>@color/c10</item>
+        <item>@color/c11</item>
+        <item>@color/c12</item>
+        <item>@color/c13</item>
+        <item>@color/c14</item>
+        <item>@color/c15</item>
+        <item>@color/c16</item>
+        <item>@color/c17</item>
+        <item>@color/c18</item>
+        <item>@color/c19</item>
+        <item>@color/c20</item>
+    </array>
+</resources>
