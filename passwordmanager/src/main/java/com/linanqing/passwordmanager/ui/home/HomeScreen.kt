@@ -211,7 +211,8 @@ private fun AccountItem(
 }
 @Composable
 fun AppIcon(str:String, shadowElevation: Dp, modifier: Modifier, shape: Shape){
-    val index = str.hashCode() % 20
+    // 避免出现负数
+    val index = (str.hashCode() and Int.MAX_VALUE) % 20
     Surface(
         shadowElevation = shadowElevation,
         modifier = modifier,

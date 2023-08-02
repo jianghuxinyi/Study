@@ -50,6 +50,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.linanqing.passwordmanager.AccountTopAppBar
 import com.linanqing.passwordmanager.R
 import com.linanqing.passwordmanager.ui.AppViewModelProvider
+import com.linanqing.passwordmanager.ui.home.AppIcon
 import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
 import com.linanqing.passwordmanager.ui.theme.StudyTheme
 import com.linanqing.passwordmanager.utils.BiometricCallback
@@ -158,15 +159,16 @@ fun AccountInputForm(
     ) {
 //        Image(painter = painterResource(id = R.drawable.test), contentDescription = "",
 //        modifier = Modifier.clip(CircleShape).size(96.dp).align(Alignment.CenterHorizontally))
-        Surface(shadowElevation = dimensionResource(id = R.dimen.padding_medium), shape = CircleShape, modifier = Modifier.align(Alignment.CenterHorizontally),) {
-            Image(
-                painter = painterResource(id = R.drawable.test), contentDescription = "",
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(96.dp)
-                    .padding()
-                )
-        }
+//        Surface(shadowElevation = dimensionResource(id = R.dimen.padding_medium), shape = CircleShape, modifier = Modifier.align(Alignment.CenterHorizontally),) {
+//            Image(
+//                painter = painterResource(id = R.drawable.test), contentDescription = "",
+//                modifier = Modifier
+//                    .clip(CircleShape)
+//                    .size(96.dp)
+//                    .padding()
+//                )
+//        }
+        AppIcon(str = accountDetails.name, shadowElevation = dimensionResource(id = R.dimen.padding_medium), modifier = Modifier.align(CenterHorizontally).size(96.dp), shape = CircleShape)
         OutlinedTextField(
             value = accountDetails.name,
             onValueChange = { onValueChange(accountDetails.copy(name = it)) },
