@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import com.linanqing.passwordmanager.data.Account
 import com.linanqing.passwordmanager.data.App
@@ -22,21 +23,20 @@ class AppListViewModel : ViewModel() {
 
     //val appUiState: StateFlow<AppUiState> = getAllApp.map {  }
 
-    suspend fun getAllApp(ctx: Context): List<App> {
-        var appList = ArrayList<App>()
+    fun getAllApp(ctx: Context,appList: SnapshotStateList<App>) {
         val packList = ctx.packageManager.getInstalledPackages(0)
         for (item in packList) {
+            if (item.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0){
+                continue
+            }
             try {
                 val appName = item.applicationInfo.loadLabel(ctx.packageManager).toString()
                 val iconDrawable = item.applicationInfo.loadIcon(ctx.packageManager)
                 val iconBitmap = (iconDrawable as BitmapDrawable).bitmap
-                if (item.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0){
-                    appList.add(App(appName, iconBitmap))
-                }
+                appList.add(App(appName, iconBitmap))
             } catch (e: Exception) {
             }
         }
-        return appList
     }
 
     //data class AppUiState(val aooList: List<App> = listOf())

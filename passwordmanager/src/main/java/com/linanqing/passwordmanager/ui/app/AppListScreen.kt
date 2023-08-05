@@ -51,6 +51,8 @@ import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
 import com.linanqing.passwordmanager.utils.BiometricCallback
 import com.linanqing.passwordmanager.utils.biometricUtils
 import com.linanqing.passwordmanager.utils.promptInfo
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 object AppListScreenDestination : NavigationDestination {
@@ -69,7 +71,6 @@ fun AppListScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
-
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -99,12 +100,12 @@ private fun AppListBody(modifier:Modifier,viewModel: AppListViewModel){
 
         val ctx = LocalContext.current
         var apps = remember { mutableStateListOf<App>() }
-        LaunchedEffect(Unit) {
-            apps.addAll(viewModel.getAllApp(ctx))
-        }
         AppList(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
             apps
         )
+        LaunchedEffect(Unit) {
+            viewModel.getAllApp(ctx,apps)
+        }
 
     }
 
