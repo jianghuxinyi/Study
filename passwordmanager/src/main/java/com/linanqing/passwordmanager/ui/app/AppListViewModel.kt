@@ -19,10 +19,6 @@ import kotlinx.coroutines.flow.map
 
 class AppListViewModel : ViewModel() {
 
-    //var apps by mutableStateListOf<App>()
-
-    //val appUiState: StateFlow<AppUiState> = getAllApp.map {  }
-
     fun getAllApp(ctx: Context,appList: SnapshotStateList<App>) {
         val packList = ctx.packageManager.getInstalledPackages(0)
         for (item in packList) {
@@ -31,14 +27,11 @@ class AppListViewModel : ViewModel() {
             }
             try {
                 val appName = item.applicationInfo.loadLabel(ctx.packageManager).toString()
-                val iconDrawable = item.applicationInfo.loadIcon(ctx.packageManager)
-                val iconBitmap = (iconDrawable as BitmapDrawable).bitmap
-                appList.add(App(appName, iconBitmap))
+                val packName = item.applicationInfo.packageName
+                appList.add(App(appName, packName))
             } catch (e: Exception) {
             }
         }
     }
-
-    //data class AppUiState(val aooList: List<App> = listOf())
 }
 

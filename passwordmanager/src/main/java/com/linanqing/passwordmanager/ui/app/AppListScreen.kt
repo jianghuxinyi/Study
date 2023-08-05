@@ -1,5 +1,7 @@
 package com.linanqing.passwordmanager.ui.app
 
+import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -123,11 +125,17 @@ fun AppList(modifier: Modifier,appList:List<App>){
 
 @Composable
 fun AppItem(app:App,modifier: Modifier){
+
+    val ctx = LocalContext.current
+    val info = ctx.packageManager.getPackageInfo(app.packName,PackageManager.GET_ACTIVITIES)
+    val iconDrawable =info.applicationInfo.loadIcon(ctx.packageManager)
+    val iconBitmap = (iconDrawable as BitmapDrawable).bitmap
+
     Row(
         modifier =modifier
     ) {
         // 应用图标
-        Image(bitmap = app.bitmap.asImageBitmap(), contentDescription = "", modifier = Modifier.size(40.dp))
+        Image(bitmap = iconBitmap.asImageBitmap(), contentDescription = "", modifier = Modifier.size(40.dp))
         Column {
             Row(modifier = Modifier
                 .fillMaxWidth()
