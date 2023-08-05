@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -68,11 +69,8 @@ fun AppListScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
-    val ctx = LocalContext.current
-    var apps = remember { mutableStateListOf<App>() }
-    LaunchedEffect(Unit) {
-        apps.addAll(viewModel.getAllApp(ctx))
-    }
+
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -84,15 +82,32 @@ fun AppListScreen(
             )
         }
     ) { innerPadding ->
-
-
-        AppList(modifier = Modifier
+        AppListBody(modifier = modifier
             .padding(innerPadding)
-            .verticalScroll(rememberScrollState())
-            .fillMaxWidth(),
-            apps
-            )
+            .fillMaxSize(), viewModel = viewModel)
     }
+}
+
+
+@Composable
+private fun AppListBody(modifier:Modifier,viewModel: AppListViewModel){
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+
+        val ctx = LocalContext.current
+        var apps = remember { mutableStateListOf<App>() }
+        LaunchedEffect(Unit) {
+            apps.addAll(viewModel.getAllApp(ctx))
+        }
+        AppList(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
+            apps
+        )
+
+    }
+
 }
 
 @Composable
