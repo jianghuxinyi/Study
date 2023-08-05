@@ -17,7 +17,6 @@
 package com.linanqing.passwordmanager.ui.account
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,14 +31,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -66,6 +62,7 @@ object AccountEntryDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountEntryScreen(
+    navigateToAppEntry:() -> Unit,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
@@ -113,7 +110,8 @@ fun AccountEntryScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            click = navigateToAppEntry
         )
     }
 }
@@ -123,7 +121,8 @@ fun AccountEntryBody(
     accountUiState: AccountUiState,
     onItemValueChange: (AccountDetails) -> Unit,
     onSaveClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    click:() -> Unit
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
@@ -132,7 +131,8 @@ fun AccountEntryBody(
         AccountInputForm(
             accountDetails = accountUiState.accountDetails,
             onValueChange = onItemValueChange,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            click = click
         )
         Button(
             onClick = onSaveClick,
@@ -151,7 +151,8 @@ fun AccountInputForm(
     accountDetails: AccountDetails,
     modifier: Modifier = Modifier,
     onValueChange: (AccountDetails) -> Unit = {},
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    click:() -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -168,7 +169,9 @@ fun AccountInputForm(
 //                    .padding()
 //                )
 //        }
-        AppIcon(str = accountDetails.name, shadowElevation = dimensionResource(id = R.dimen.padding_medium), modifier = Modifier.align(CenterHorizontally).size(96.dp), shape = CircleShape)
+        val ctx = LocalContext.current
+        AppIcon(str = accountDetails.name, shadowElevation = dimensionResource(id = R.dimen.padding_medium), modifier = Modifier.align(CenterHorizontally).size(96.dp), shape = CircleShape,
+        iconClick = click)
         OutlinedTextField(
             value = accountDetails.name,
             onValueChange = { onValueChange(accountDetails.copy(name = it)) },
@@ -291,6 +294,6 @@ private fun ItemEntryScreenPreview() {
                 group = "",
                 remark = "remark"
             )
-        ), onItemValueChange = {}, onSaveClick = {})
+        ), onItemValueChange = {}, onSaveClick = {}, click = {})
     }
 }

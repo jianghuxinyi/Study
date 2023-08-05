@@ -16,6 +16,8 @@ import com.linanqing.passwordmanager.ui.account.AccountEditDestination
 import com.linanqing.passwordmanager.ui.account.AccountEditScreen
 import com.linanqing.passwordmanager.ui.account.AccountEntryDestination
 import com.linanqing.passwordmanager.ui.account.AccountEntryScreen
+import com.linanqing.passwordmanager.ui.app.AppListScreen
+import com.linanqing.passwordmanager.ui.app.AppListScreenDestination
 
 import com.linanqing.passwordmanager.ui.home.HomeDestination
 
@@ -42,6 +44,14 @@ fun AccountNavHost(
         }
         composable(route = AccountEntryDestination.route) {
             AccountEntryScreen(
+                navigateToAppEntry={navController.navigate(AppListScreenDestination.route)},
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
+
+        composable(route = AppListScreenDestination.route) {
+            AppListScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
             )

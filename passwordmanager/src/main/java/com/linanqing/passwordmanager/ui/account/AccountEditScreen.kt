@@ -91,7 +91,8 @@ fun AccountEditScreen(
                 }).authenticate(promptInfo)
 
             },
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            click = {}
         )
     }
 }

@@ -26,6 +26,7 @@ import com.linanqing.passwordmanager.AccountApplication
 import com.linanqing.passwordmanager.ui.account.AccountDetailsViewModel
 import com.linanqing.passwordmanager.ui.account.AccountEditViewModel
 import com.linanqing.passwordmanager.ui.account.AccountEntryViewModel
+import com.linanqing.passwordmanager.ui.app.AppListViewModel
 import com.linanqing.passwordmanager.ui.home.HomeViewModel
 
 /**
@@ -45,6 +46,9 @@ object AppViewModelProvider {
             AccountEntryViewModel(accountApplication().container.accountsRepository)
         }
 
+        initializer {
+            AppListViewModel()
+        }
         // Initializer for ItemDetailsViewModel
         initializer {
             AccountDetailsViewModel(

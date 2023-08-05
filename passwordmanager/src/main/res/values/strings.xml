@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">账号管理</string>
+    <string name="app_name">云阁</string>
     <string name="back_button">返回</string>
     <string name="no_account_description">Tips!\n还没有账号.\n快添加一个吧.</string>
 
@@ -15,6 +15,8 @@
     <string name="group">分组</string>
     <string name="remark">备注</string>
     <string name="attention">注意</string>
+
+    <string name="select_app">选择应用</string>
 
     <string name="account_name_req">应用*</string>
     <string name="account_account_req">账号*</string>

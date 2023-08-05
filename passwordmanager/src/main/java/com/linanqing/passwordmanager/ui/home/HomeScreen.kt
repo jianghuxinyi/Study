@@ -1,6 +1,7 @@
 package com.linanqing.passwordmanager.ui.home
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -173,11 +174,13 @@ private fun AccountItem(
             modifier =modifier
         ) {
             // 应用图标
-            AppIcon(str = account.name,
+            AppIcon(
+                str = account.name,
                 0.dp,
                 modifier = Modifier
                 .size(40.dp)
-                .clip(RoundedCornerShape(8.dp)), shape = RoundedCornerShape(0.dp)
+                .clip(RoundedCornerShape(8.dp)), shape = RoundedCornerShape(8.dp),
+                iconClick = {}
             )
             Column {
                 Row(modifier = Modifier
@@ -210,14 +213,16 @@ private fun AccountItem(
 
 }
 @Composable
-fun AppIcon(str:String, shadowElevation: Dp, modifier: Modifier, shape: Shape){
+fun AppIcon(str:String, shadowElevation: Dp, modifier: Modifier, shape: Shape, iconClick: ()-> Unit){
     // 避免出现负数
     val index = (str.hashCode() and Int.MAX_VALUE) % 20
+    val ctx = LocalContext.current
     Surface(
+        onClick = iconClick,
         shadowElevation = shadowElevation,
         modifier = modifier,
         color = Color(colorArray[index]),
-        shape = shape
+        shape = shape,
 
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
@@ -226,6 +231,7 @@ fun AppIcon(str:String, shadowElevation: Dp, modifier: Modifier, shape: Shape){
                     text = str[0].toString(),
                     color = Color.White,
                     style = MaterialTheme.typography.headlineLarge,
+
                 )
             }
         }
