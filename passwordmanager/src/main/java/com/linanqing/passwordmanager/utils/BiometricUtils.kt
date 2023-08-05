@@ -22,26 +22,26 @@ fun biometricUtils(ctx:Context,callback: BiometricCallback): BiometricPrompt {
             override fun onAuthenticationError(errorCode: Int,
                                                errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
-                Toast.makeText(ctx,
-                    "Authentication Tips: $errString", Toast.LENGTH_SHORT)
-                    .show()
+//                Toast.makeText(ctx,
+//                    "Authentication Tips: $errString", Toast.LENGTH_SHORT)
+//                    .show()
                 callback.error()
             }
 
             override fun onAuthenticationSucceeded(
                 result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
-                Toast.makeText(ctx,
-                    "Authentication Succ!", Toast.LENGTH_SHORT)
-                    .show()
+//                Toast.makeText(ctx,
+//                    "Authentication Succ!", Toast.LENGTH_SHORT)
+//                    .show()
                 callback.success()
             }
 
             override fun onAuthenticationFailed() {
                 super.onAuthenticationFailed()
-                Toast.makeText(ctx, "Authentication failed",
-                    Toast.LENGTH_SHORT)
-                    .show()
+//                Toast.makeText(ctx, "Authentication failed",
+//                    Toast.LENGTH_SHORT)
+//                    .show()
                 callback.failed()
             }
         })
