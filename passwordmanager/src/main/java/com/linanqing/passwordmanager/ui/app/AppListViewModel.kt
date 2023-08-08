@@ -2,6 +2,7 @@ package com.linanqing.passwordmanager.ui.app
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.graphics.drawable.BitmapDrawable
@@ -20,14 +21,16 @@ import kotlinx.coroutines.flow.map
 class AppListViewModel : ViewModel() {
 
     fun getAllApp(ctx: Context,appList: SnapshotStateList<App>) {
-        val packList = ctx.packageManager.getInstalledPackages(0)
+        val pm = ctx.packageManager
+        val packList = pm.getInstalledPackages(0)
         for (item in packList) {
             if (item.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0){
                 continue
             }
             try {
-                val appName = item.applicationInfo.loadLabel(ctx.packageManager).toString()
                 val packName = item.applicationInfo.packageName
+                val info = pm.getApplicationInfo(packName, PackageManager.GET_META_DATA)
+                val appName = pm.getApplicationLabel(info).toString()
                 appList.add(App(appName, packName))
             } catch (e: Exception) {
             }

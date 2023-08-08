@@ -70,7 +70,7 @@ data class AccountUiState(
 
 data class AccountDetails(
     val id: Int = 0,
-    val icon: String = "",
+    var icon: String = "",
     val name: String = "",
     val account: String = "",
     val password: String = "",

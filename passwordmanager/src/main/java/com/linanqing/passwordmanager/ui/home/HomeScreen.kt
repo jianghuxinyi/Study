@@ -1,9 +1,14 @@
 package com.linanqing.passwordmanager.ui.home
 
+import android.R.attr.height
+import android.R.attr.width
 import android.annotation.SuppressLint
-import android.widget.Toast
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,7 +31,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -38,7 +42,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -52,10 +58,11 @@ import com.linanqing.passwordmanager.AccountTopAppBar
 import com.linanqing.passwordmanager.R
 import com.linanqing.passwordmanager.data.Account
 import com.linanqing.passwordmanager.ui.AppViewModelProvider
-import com.linanqing.passwordmanager.utils.biometricUtils
 import com.linanqing.passwordmanager.ui.navigation.NavigationDestination
 import com.linanqing.passwordmanager.utils.BiometricCallback
+import com.linanqing.passwordmanager.utils.biometricUtils
 import com.linanqing.passwordmanager.utils.promptInfo
+
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
@@ -178,8 +185,8 @@ private fun AccountItem(
                 str = account.name,
                 0.dp,
                 modifier = Modifier
-                .size(40.dp)
-                .clip(RoundedCornerShape(8.dp)), shape = RoundedCornerShape(8.dp),
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(8.dp)), shape = RoundedCornerShape(8.dp),
                 iconClick = {}
             )
             Column {
@@ -223,16 +230,23 @@ fun AppIcon(str:String, shadowElevation: Dp, modifier: Modifier, shape: Shape, i
         modifier = modifier,
         color = Color(colorArray[index]),
         shape = shape,
-
-    ) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-            if (str.isNotEmpty()){
+        ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            if (str.indexOf("com") != -1) {
+                val ctx = LocalContext.current
+                val info = ctx.packageManager.getPackageInfo(str, PackageManager.GET_ACTIVITIES)
+                val iconDrawable =info.applicationInfo.loadIcon(ctx.packageManager)
+                val iconBitmap = (iconDrawable as BitmapDrawable).bitmap
+                Image(bitmap = iconBitmap.asImageBitmap(), contentDescription = "",modifier = Modifier
+                    .size(64.dp),
+                    contentScale = ContentScale.Crop)
+            }else if (str.isNotEmpty()) {
                 Text(
                     text = str[0].toString(),
                     color = Color.White,
                     style = MaterialTheme.typography.headlineLarge,
 
-                )
+                    )
             }
         }
 

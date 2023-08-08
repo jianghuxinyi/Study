@@ -44,6 +44,7 @@ fun AccountNavHost(
         }
         composable(route = AccountEntryDestination.route) {
             AccountEntryScreen(
+                navController = navController,
                 navigateToAppEntry={navController.navigate(AppListScreenDestination.route)},
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
@@ -52,7 +53,7 @@ fun AccountNavHost(
 
         composable(route = AppListScreenDestination.route) {
             AppListScreen(
-
+                navController = navController,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
             )

@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,16 +34,22 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.linanqing.passwordmanager.AccountTopAppBar
 import com.linanqing.passwordmanager.R
 import com.linanqing.passwordmanager.ui.AppViewModelProvider
@@ -62,6 +69,7 @@ object AccountEntryDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountEntryScreen(
+    navController: NavHostController,
     navigateToAppEntry:() -> Unit,
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
@@ -70,6 +78,11 @@ fun AccountEntryScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val ctx = LocalContext.current
+    navController.currentBackStackEntry?.savedStateHandle?.getLiveData<String>("icon")?.observe(
+        LocalLifecycleOwner.current){
+        viewModel.accountUiState.accountDetails.icon = it
+    }
+
     Scaffold(
         topBar = {
             AccountTopAppBar(
@@ -158,19 +171,8 @@ fun AccountInputForm(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
-//        Image(painter = painterResource(id = R.drawable.test), contentDescription = "",
-//        modifier = Modifier.clip(CircleShape).size(96.dp).align(Alignment.CenterHorizontally))
-//        Surface(shadowElevation = dimensionResource(id = R.dimen.padding_medium), shape = CircleShape, modifier = Modifier.align(Alignment.CenterHorizontally),) {
-//            Image(
-//                painter = painterResource(id = R.drawable.test), contentDescription = "",
-//                modifier = Modifier
-//                    .clip(CircleShape)
-//                    .size(96.dp)
-//                    .padding()
-//                )
-//        }
         val ctx = LocalContext.current
-        AppIcon(str = accountDetails.name, shadowElevation = dimensionResource(id = R.dimen.padding_medium), modifier = Modifier.align(CenterHorizontally).size(96.dp), shape = CircleShape,
+        AppIcon(str = accountDetails.icon, shadowElevation = dimensionResource(id = R.dimen.padding_medium), modifier = Modifier.align(CenterHorizontally).size(96.dp), shape = CircleShape,
         iconClick = click)
         OutlinedTextField(
             value = accountDetails.name,
